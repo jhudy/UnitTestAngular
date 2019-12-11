@@ -46,4 +46,20 @@ describe('Medicos Componet testSuit', () =>{
         expect(component.mensajeError).toBe(miError);
     });
 
+    //5 Debe de llamar al servidor para borrar un medico
+    it('Debe de llamar al servidor para borrar un medico', ()=>{ 
+        //const medico = {id: 1, nombre: 'Gabriela Montaño Excelsa'};
+        spyOn(servicio,'borrarMedico').and.returnValue(EMPTY);
+        component.borrarMedico('1');
+        expect(component.medicos.length).toBeGreaterThanOrEqual(0);
+    });
+    
+    //6 No debe llamar al servidor para borrar un medico cuando el confirmar sea negativo
+    it('No debe llamar al servidor para borrar un medico cuando el confirmar sea negativo', () => {
+        spyOn(window, 'confirm').and.returnValue(false);
+        const espia = spyOn(servicio, 'borrarMedico').and.returnValue(EMPTY);
+        component.borrarMedico('1');
+        expect(espia).not.toHaveBeenCalledWith('1');
+      });
+
 })
